@@ -11,6 +11,9 @@ function dustMockReturns(mockGetDustHtml, template) {
       beforeEach(function () {
         document.body.innerHTML = __html__['index.html'];
         mockGetDustHtml = sinon.stub(FluidBoxes.server, 'getDustHtml');
+        dustMockReturns(mockGetDustHtml, FluidBoxes.containerTemplate);
+        dustMockReturns(mockGetDustHtml, FluidBoxes.boxTemplate);
+        FluidBoxes.init();
       });
 
       afterEach(function () {
@@ -18,19 +21,13 @@ function dustMockReturns(mockGetDustHtml, template) {
       });
 
       it('renders base container', function () {
-        dustMockReturns(mockGetDustHtml, FluidBoxes.containerTemplate);
-        FluidBoxes.init()
         assert.equal($('#BaseContainer').length, 1)
       });
 
       it('renders content container', function () {
-        dustMockReturns(mockGetDustHtml, FluidBoxes.containerTemplate);
-        FluidBoxes.init()
         assert.equal($('#ContentContainer').length, 1)
       });
       it('renders first box', function () {
-        dustMockReturns(mockGetDustHtml, FluidBoxes.boxTemplate);
-        FluidBoxes.init()
         assert.equal($('.box').length, 1)
       });
 
@@ -38,14 +35,24 @@ function dustMockReturns(mockGetDustHtml, template) {
 
     describe("first box when clicked", function () {
 
-      it("renders a new box to the right", function (){
-        dustMockReturns(mockGetDustHtml, FluidBoxes.containerTemplate);
-        dustMockReturns(mockGetDustHtml, FluidBoxes.boxTemplate);
-
-        FluidBoxes.init();
-
+      beforeEach(function () {
         $('#box_1').click()
+      })
+
+      it("renders a new box to the right", function (){
         assert.equal($('#box_2').length, 1)
+      })
+
+      it("the box has next number of 2", function () {
+        assert.equal($('#box_2 .panel-title').html(), 2)
+      })
+
+      it("the box has left neighbor of 1", function () {
+        assert.equal($('#box_2 .panel-body .pull-left').html(), 1)
+      })
+
+      it("the box has right neighbor of nothing", function () {
+        assert.equal($('#box_2 .panel-body .pull-right').html(), '')
       })
 
     });
