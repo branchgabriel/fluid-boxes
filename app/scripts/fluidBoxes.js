@@ -35,11 +35,20 @@ var FluidBoxes = {
   },
   util: {
     createBoxData: function (clickedBox) {
-      var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id'));
+      var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
+        newBoxNum = clickedBoxNum + 1,
+        modNum  = newBoxNum % 4,
+        rightNeighborNum = clickedBoxNum-1;
+
+      if(rightNeighborNum == 0){
+        rightNeighborNum = '';
+      }
+
       return {
-        boxNum: clickedBoxNum + 1,
+        boxNum: newBoxNum,
         leftNeighbor: clickedBoxNum,
-        rightNeighbor: clickedBoxNum - 1
+        rightNeighbor: rightNeighborNum,
+        modNum : modNum
       }
     }
   },

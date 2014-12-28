@@ -55,6 +55,10 @@ function dustMockReturns(mockGetDustHtml, template) {
         assert.equal($('#box_2 .panel-body .pull-right').html(), '')
       })
 
+      it("has the correct background class", function(){
+        ($('#box_2 .panel-body').hasClass("background_2")).should.be.equal(true)
+      })
+
     });
   });
 })();

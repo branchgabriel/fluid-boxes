@@ -6,7 +6,7 @@ module.exports = function(config) {
     files: [
       'bower_components/jquery/dist/jquery.js',
       'bower_components/assert/assert.js',
-      'bower_components/should/should.min.js',
+      'bower_components/should/should.js',
       'bower_components/bootstrap/**/*.js',
       'bower_components/dustjs/dist/**/*.js',
       'dust_source/*.html',
