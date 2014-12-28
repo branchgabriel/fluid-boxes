@@ -33,7 +33,7 @@ function dustMockReturns(mockGetDustHtml, template) {
 
     });
 
-    describe("creating 12 boxes", function () {
+    describe("creating 22 boxes", function () {
 
       beforeEach(function () {
         FluidBoxes.totalBoxes = 1
@@ -56,22 +56,26 @@ function dustMockReturns(mockGetDustHtml, template) {
         $('#box_15').click()
         $('#box_16').click()
         $('#box_17').click()
+        $('#box_18').click()
+        $('#box_19').click()
+        $('#box_20').click()
+        $('#box_21').click()
       })
 
       it("renders a new box to the right of box 1", function (){
         assert.equal($('#box_2').length, 1)
       })
 
-      it("the box has next number of 2", function () {
+      it("2nd box has next number of 2", function () {
         assert.equal($('#box_2 .panel-title').html(), 2)
       })
 
-      it("the box has left neighbor of 1", function () {
+      it("2nd box has left neighbor of 1", function () {
         assert.equal($('#box_2 .panel-body .pull-left').html(), 1)
       })
 
-      it("the box has right neighbor of nothing", function () {
-        assert.equal($('#box_2 .panel-body .pull-right').html(), '')
+      it("1st box now has right neighbor of 2", function () {
+        assert.equal($('#box_1 .panel-body .pull-right').html(), 2)
       })
 
       it("2nd box has blue background class", function(){
@@ -108,6 +112,29 @@ function dustMockReturns(mockGetDustHtml, template) {
 
       it("16th box has blue background class", function () {
         ($('#box_16 .panel-body').hasClass("background_4")).should.be.equal(true)
+      })
+
+      it("20th box has blue background class", function () {
+        ($('#box_20 .panel-body').hasClass("background_2")).should.be.equal(true)
+      })
+
+      it("21st box has blue background class", function () {
+        ($('#box_21 .panel-body').hasClass("background_3")).should.be.equal(true)
+      })
+
+      it("22nd box has blue background class", function () {
+        ($('#box_22 .panel-body').hasClass("background_4")).should.be.equal(true)
+      })
+
+      it("22nd box has right neighbor of nothing", function () {
+        assert.equal($('#box_22 .panel-body .pull-right').html(), '')
+      })
+
+      it("21st box has blue background class", function () {
+        var addBoxSpy = sinon.spy(FluidBoxes.view,"addBox");
+        $('#box_22').click()
+        assert(addBoxSpy.called,false)
+        addBoxSpy.restore();
       })
 
     });

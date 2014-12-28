@@ -13,7 +13,7 @@ var FluidBoxes = {
   },
   events:{
     bindBoxes: function(){
-      $('#ContentContainer').on('click','.panel-wrapper',function(evt){
+      $('#ContentContainer').on('click','.panel-wrapper:last',function(evt){
         FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
       })
     }
@@ -30,9 +30,11 @@ var FluidBoxes = {
         $("#ContentContainer .row").append(out);
       });
     },
-    addBox: function(clickedBox){
-      dust.render(FluidBoxes.boxTemplate, FluidBoxes.util.createBoxData(clickedBox), function(err, out){
-        clickedBox.closest('.panel-wrapper').after(out);
+    addBox: function(clickedBox) {
+      var boxData = FluidBoxes.util.createBoxData(clickedBox);
+      dust.render(FluidBoxes.boxTemplate, boxData, function (err, out) {
+        clickedBox.after(out);
+        clickedBox.find('.pull-right').html(boxData.boxNum);
       });
     }
   },
@@ -41,13 +43,15 @@ var FluidBoxes = {
       var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
         newBoxNum = clickedBoxNum + 1,
         modNum = 999,
-        rightNeighborNum = clickedBoxNum- 1;
+        rightNeighborNum;
 
       FluidBoxes.totalBoxes++;
 
-      if(rightNeighborNum == 0){
-        rightNeighborNum = '';
-      }
+      //if(clickedBoxNum+1 == FluidBoxes.totalBoxes){
+      //  rightNeighborNum = '';
+      //} else {
+      //  rightNeighborNum = clickedBoxNum+1
+      //}
 
       return {
         boxNum: newBoxNum,
@@ -59,12 +63,12 @@ var FluidBoxes = {
     calculateModNum: function (modNum, newBoxNum) {
       if (FluidBoxes.totalBoxes > FluidBoxes.modPredicate) {
         FluidBoxes.previousPredicate = FluidBoxes.modPredicate;
-        FluidBoxes.modPredicate += FluidBoxes.previousPredicate;
+        FluidBoxes.modPredicate += 6;
       }
 
       modNum = newBoxNum % FluidBoxes.modPredicate;
       modNum -= FluidBoxes.previousPredicate;
-      console.log(modNum)
+      //console.log(modNum)
       return modNum;
     }
   },
