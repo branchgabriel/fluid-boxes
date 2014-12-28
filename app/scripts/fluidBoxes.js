@@ -1,6 +1,9 @@
 var FluidBoxes = {
   containerTemplate:'containers',
   boxTemplate:'box',
+  totalBoxes:1,
+  modPredicate : 6,
+  previousPredicate : 0,
   init:function(){
     FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.containerTemplate+'.html', FluidBoxes.containerTemplate);
     FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.boxTemplate+'.html', FluidBoxes.boxTemplate);
@@ -37,8 +40,10 @@ var FluidBoxes = {
     createBoxData: function (clickedBox) {
       var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
         newBoxNum = clickedBoxNum + 1,
-        modNum  = newBoxNum % 4,
-        rightNeighborNum = clickedBoxNum-1;
+        modNum = 999,
+        rightNeighborNum = clickedBoxNum- 1;
+
+      FluidBoxes.totalBoxes++;
 
       if(rightNeighborNum == 0){
         rightNeighborNum = '';
@@ -48,8 +53,19 @@ var FluidBoxes = {
         boxNum: newBoxNum,
         leftNeighbor: clickedBoxNum,
         rightNeighbor: rightNeighborNum,
-        modNum : modNum
+        modNum : FluidBoxes.util.calculateModNum(modNum, newBoxNum)
       }
+    },
+    calculateModNum: function (modNum, newBoxNum) {
+      if (FluidBoxes.totalBoxes > FluidBoxes.modPredicate) {
+        FluidBoxes.previousPredicate = FluidBoxes.modPredicate;
+        FluidBoxes.modPredicate += FluidBoxes.previousPredicate;
+      }
+
+      modNum = newBoxNum % FluidBoxes.modPredicate;
+      modNum -= FluidBoxes.previousPredicate;
+      console.log(modNum)
+      return modNum;
     }
   },
   templates:{

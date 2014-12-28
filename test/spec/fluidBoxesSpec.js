@@ -33,13 +33,32 @@ function dustMockReturns(mockGetDustHtml, template) {
 
     });
 
-    describe("first box when clicked", function () {
+    describe("creating 12 boxes", function () {
 
       beforeEach(function () {
+        FluidBoxes.totalBoxes = 1
+        FluidBoxes.modPredicate = 6
+        FluidBoxes.previousPredicate = 0
         $('#box_1').click()
+        $('#box_2').click()
+        $('#box_3').click()
+        $('#box_4').click()
+        $('#box_5').click()
+        $('#box_6').click()
+        $('#box_7').click()
+        $('#box_8').click()
+        $('#box_9').click()
+        $('#box_10').click()
+        $('#box_11').click()
+        $('#box_12').click()
+        $('#box_13').click()
+        $('#box_14').click()
+        $('#box_15').click()
+        $('#box_16').click()
+        $('#box_17').click()
       })
 
-      it("renders a new box to the right", function (){
+      it("renders a new box to the right of box 1", function (){
         assert.equal($('#box_2').length, 1)
       })
 
@@ -55,8 +74,40 @@ function dustMockReturns(mockGetDustHtml, template) {
         assert.equal($('#box_2 .panel-body .pull-right').html(), '')
       })
 
-      it("has the correct background class", function(){
+      it("2nd box has blue background class", function(){
         ($('#box_2 .panel-body').hasClass("background_2")).should.be.equal(true)
+      })
+
+      it("3rd box has green background class", function(){
+        ($('#box_3 .panel-body').hasClass("background_3")).should.be.equal(true)
+      })
+
+      it("4th box has blue background class", function(){
+        ($('#box_4 .panel-body').hasClass("background_4")).should.be.equal(true)
+      })
+
+      it("8th box has blue background class", function(){
+        ($('#box_8 .panel-body').hasClass("background_2")).should.be.equal(true)
+      })
+
+      it("9th box has blue background class", function(){
+        ($('#box_9 .panel-body').hasClass("background_3")).should.be.equal(true)
+      })
+
+      it("10th box has blue background class", function(){
+        ($('#box_10 .panel-body').hasClass("background_4")).should.be.equal(true)
+      })
+
+      it("14th box has blue background class", function () {
+        ($('#box_14 .panel-body').hasClass("background_2")).should.be.equal(true)
+      })
+
+      it("15th box has blue background class", function () {
+        ($('#box_15 .panel-body').hasClass("background_3")).should.be.equal(true)
+      })
+
+      it("16th box has blue background class", function () {
+        ($('#box_16 .panel-body').hasClass("background_4")).should.be.equal(true)
       })
 
     });
