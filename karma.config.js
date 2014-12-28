@@ -1,7 +1,7 @@
 module.exports = function(config) {
   config.set({
 
-    frameworks: ['mocha','fixture','sinon'],
+    frameworks: ['mocha','sinon'],
     basePath:'app/',
     files: [
       'bower_components/jquery/dist/jquery.js',
