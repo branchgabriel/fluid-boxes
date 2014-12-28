@@ -35,6 +35,7 @@ var FluidBoxes = {
       dust.render(FluidBoxes.boxTemplate, boxData, function (err, out) {
         clickedBox.after(out);
         clickedBox.find('.pull-right').html(boxData.boxNum);
+        clickedBox.find('.focus').removeClass('focus');
       });
     }
   },

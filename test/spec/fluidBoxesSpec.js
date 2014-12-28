@@ -114,6 +114,10 @@ function dustMockReturns(mockGetDustHtml, template) {
         assert.equal($('#box_22 .panel-body .pull-right').html(), '')
       })
 
+      it("22nd box has highlight focus", function () {
+        assert.equal($('.focus').length, 1)
+      })
+
       it("21st box has blue background class", function () {
         var addBoxSpy = sinon.spy(FluidBoxes.view,"addBox");
         $('#box_22').click()
