@@ -10,8 +10,8 @@ var FluidBoxes = {
   },
   events:{
     bindBoxes: function(){
-      $('#ContentContainer').on('click','.panel',function(evt){
-        FluidBoxes.view.addBox($(evt.target))
+      $('#ContentContainer').on('click','.panel-wrapper',function(evt){
+        FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
       })
     }
   },
