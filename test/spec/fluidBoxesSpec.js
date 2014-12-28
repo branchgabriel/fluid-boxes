@@ -1,3 +1,6 @@
+function mockGetDustHtml(template) {
+  sinon.stub(FluidBoxes.server, 'getDustHtml').returns(__html__['dust_source/'+template+'.html']);
+}
 (function () {
   'use strict';
 
@@ -5,7 +8,7 @@
     describe('init', function () {
       beforeEach(function () {
         document.body.innerHTML = __html__['index.html'];
-        sinon.stub(FluidBoxes.server, 'getDustHtml').returns(__html__['dust_source/containers.html']);
+        mockGetDustHtml(FluidBoxes.containerTemplate);
       });
 
       afterEach(function () {
