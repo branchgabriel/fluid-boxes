@@ -39,27 +39,11 @@ function dustMockReturns(mockGetDustHtml, template) {
         FluidBoxes.totalBoxes = 1
         FluidBoxes.modPredicate = 6
         FluidBoxes.previousPredicate = 0
-        $('#box_1').click()
-        $('#box_2').click()
-        $('#box_3').click()
-        $('#box_4').click()
-        $('#box_5').click()
-        $('#box_6').click()
-        $('#box_7').click()
-        $('#box_8').click()
-        $('#box_9').click()
-        $('#box_10').click()
-        $('#box_11').click()
-        $('#box_12').click()
-        $('#box_13').click()
-        $('#box_14').click()
-        $('#box_15').click()
-        $('#box_16').click()
-        $('#box_17').click()
-        $('#box_18').click()
-        $('#box_19').click()
-        $('#box_20').click()
-        $('#box_21').click()
+        var boxesToTest = 21,
+          index = 0;
+        while(index++ != boxesToTest){
+          $('#box_'+index).click()
+        }
       })
 
       it("renders a new box to the right of box 1", function (){

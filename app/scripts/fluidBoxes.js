@@ -42,21 +42,13 @@ var FluidBoxes = {
     createBoxData: function (clickedBox) {
       var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
         newBoxNum = clickedBoxNum + 1,
-        modNum = 999,
-        rightNeighborNum;
+        modNum = 999;
 
       FluidBoxes.totalBoxes++;
-
-      //if(clickedBoxNum+1 == FluidBoxes.totalBoxes){
-      //  rightNeighborNum = '';
-      //} else {
-      //  rightNeighborNum = clickedBoxNum+1
-      //}
-
       return {
         boxNum: newBoxNum,
         leftNeighbor: clickedBoxNum,
-        rightNeighbor: rightNeighborNum,
+        rightNeighbor: '',
         modNum : FluidBoxes.util.calculateModNum(modNum, newBoxNum)
       }
     },
