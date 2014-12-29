@@ -10,13 +10,19 @@ var FluidBoxes = {
     FluidBoxes.view.addContainers();
     FluidBoxes.view.addFirstBox();
     FluidBoxes.events.bindBoxes();
+    FluidBoxes.events.bindDelete();
   },
   events:{
     bindBoxes: function(){
       $('#ContentContainer').on('click','.panel-wrapper:last',function(evt){
         FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
       })
-
+    },
+    bindDelete: function () {
+      $('#ContentContainer').on('click','.deleteBox',function(evt){
+        evt.stopPropagation();
+        FluidBoxes.view.deleteBox($(evt.target).closest('.panel-wrapper'))
+      })
     }
   },
   view:{
@@ -35,18 +41,20 @@ var FluidBoxes = {
       var boxData = FluidBoxes.util.createBoxData(clickedBox);
       dust.render(FluidBoxes.boxTemplate, boxData, function (err, out) {
         clickedBox.after(out);
-        clickedBox.find('.pull-right').html(boxData.boxNum);
+        clickedBox.find('div.panel-body .pull-right').html(boxData.boxNum);
         clickedBox.find('.focus').removeClass('focus');
       });
+    },
+    deleteBox: function(clickedBox){
+      var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id'));
+      $(clickedBox).remove()
+
     }
   },
   util: {
     createBoxData: function (clickedBox) {
       var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
         newBoxNum = clickedBoxNum + 1;
-
-
-
       FluidBoxes.totalBoxes++;
       return {
         boxNum: newBoxNum,

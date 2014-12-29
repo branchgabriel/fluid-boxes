@@ -55,7 +55,7 @@ function dustMockReturns(mockGetDustHtml, template) {
       })
 
       it("2nd box has next number of 2", function () {
-        assert.equal($('#box_2 .panel-title').html(), 2)
+        assert.equal($('#box_2 .panel-title').html(), "2<span class=\"deleteBox pull-right\">x</span>")
       })
 
       it("2nd box has left neighbor of 1", function () {
@@ -145,6 +145,14 @@ function dustMockReturns(mockGetDustHtml, template) {
         addBoxSpy.restore();
       })
 
+      describe("deleting boxes", function () {
+
+        it("1st box will delete when clicked", function () {
+          $('div#box_1 .deleteBox').click()
+          assert.equal($('#box_1').length, 0)
+        })
+
+      })
 
     });
   });
