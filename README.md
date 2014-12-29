@@ -1,12 +1,6 @@
+```
 FLUID LAYOUT WITH BOXES
-(version 140805)
-Your task is to build a fluid layout that contains a set of boxes.
-Johnson, our product owner, has an idea of a new layout that is to be tried out.
-The goal is to make the result look as close as possible to the simple sketch
-below.
-If you feel that some information is missing, or something is counter-intuitive,
-please use your creative freedom and comment on it. It is important that the
-result feels smooth to use.
+
 Acceptance criteria
 Create markup that creates 2 containers
 Create/generate markup for 1 initial box
@@ -102,3 +96,4 @@ Box 7 has been removed.
 | ================================================= |
 | |
 ===========================================================
+```
