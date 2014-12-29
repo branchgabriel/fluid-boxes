@@ -82,6 +82,10 @@ function dustMockReturns(mockGetDustHtml, template) {
         ($('#box_4 .panel-body').hasClass("background_4")).should.be.equal(true)
       })
 
+      it("4th box has blue background class", function(){
+        assert.equal($('#box_4').hasClass('col-md-6'), true)
+      })
+
       it("6th box has col 12", function () {
         assert.equal($('#box_6').hasClass('col-md-12'), true)
       })

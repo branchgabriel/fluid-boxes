@@ -45,13 +45,15 @@ var FluidBoxes = {
       var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
         newBoxNum = clickedBoxNum + 1;
 
+
+
       FluidBoxes.totalBoxes++;
       return {
         boxNum: newBoxNum,
         leftNeighbor: clickedBoxNum,
         rightNeighbor: '',
         modNum : FluidBoxes.util.calculateModNum(newBoxNum),
-        colNum : FluidBoxes.util.calculateColNum(newBoxNum)
+        colNum : FluidBoxes.util.calculateColNum(clickedBox, newBoxNum)
       }
     },
     calculateModNum: function (newBoxNum) {
@@ -65,14 +67,25 @@ var FluidBoxes = {
       //console.log(modNum)
       return modNum;
     },
-    calculateColNum: function (newBoxNum) {
-
-      if(newBoxNum % 6 == 0) {
+    calculateColNum: function (clickedBox, newBoxNum) {
+      if ((
+          $(clickedBox).hasClass('col-md-4')
+          &&
+          $(clickedBox).prev().hasClass('col-md-4')
+          &&
+          $(clickedBox).prev().prev().hasClass('col-md-4'))
+        ||
+        (
+          $(clickedBox).hasClass('col-md-6')
+          &&
+          $(clickedBox).prev().hasClass('col-md-4')
+        )) {
+        return 6;
+      } else if(newBoxNum % 6 == 0) {
         return 12;
       } else {
         return 4;
       }
-
     }
 
   },
