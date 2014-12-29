@@ -46,6 +46,10 @@ function dustMockReturns(mockGetDustHtml, template) {
         }
       })
 
+      it("1st box has col 4", function () {
+        assert.equal($('#box_1').hasClass('col-md-4'), true)
+      })
+
       it("renders a new box to the right of box 1", function (){
         assert.equal($('#box_2').length, 1)
       })
@@ -56,6 +60,10 @@ function dustMockReturns(mockGetDustHtml, template) {
 
       it("2nd box has left neighbor of 1", function () {
         assert.equal($('#box_2 .panel-body .pull-left').html(), 1)
+      })
+
+      it("2nd box has col 4", function () {
+        assert.equal($('#box_2').hasClass('col-md-4'), true)
       })
 
       it("1st box now has right neighbor of 2", function () {
@@ -74,6 +82,10 @@ function dustMockReturns(mockGetDustHtml, template) {
         ($('#box_4 .panel-body').hasClass("background_4")).should.be.equal(true)
       })
 
+      it("6th box has col 12", function () {
+        assert.equal($('#box_6').hasClass('col-md-12'), true)
+      })
+
       it("8th box has blue background class", function(){
         ($('#box_8 .panel-body').hasClass("background_2")).should.be.equal(true)
       })
@@ -84,6 +96,10 @@ function dustMockReturns(mockGetDustHtml, template) {
 
       it("10th box has blue background class", function(){
         ($('#box_10 .panel-body').hasClass("background_4")).should.be.equal(true)
+      })
+
+      it("12th box has col 12", function () {
+        assert.equal($('#box_12').hasClass('col-md-12'), true)
       })
 
       it("14th box has blue background class", function () {
@@ -118,12 +134,13 @@ function dustMockReturns(mockGetDustHtml, template) {
         assert.equal($('.focus').length, 1)
       })
 
-      it("21st box has blue background class", function () {
+      it("21st box will not call addBox when clicked", function () {
         var addBoxSpy = sinon.spy(FluidBoxes.view,"addBox");
         $('#box_22').click()
         assert(addBoxSpy.called,false)
         addBoxSpy.restore();
       })
+
 
     });
   });

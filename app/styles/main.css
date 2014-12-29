@@ -5954,43 +5954,26 @@ td.visible-print {
     display: none !important;
   }
 }
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-.jumbotron {
-  margin: 50px auto 0 auto;
-}
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-a {
-  color: #00B7FF;
-}
-.baseHover {
-  border: 15px solid black;
-}
-.contentHover {
-  border: 10px solid black;
-}
-.boxHover {
-  border: 5px solid black;
-}
 #BaseContainer {
-  max-width: 960px;
+  position: relative;
+  max-width: 960px !important;
   background: url('http://replygif.net/i/939.gif');
 }
 #ContentContainer {
+  position: relative;
   margin: 40px;
-  max-width: 860px;
+  max-width: 860px !important;
   background-color: #777777;
+}
+#ContentContainer:hover {
+  border: 15px solid black !important;
+}
+#BaseContainer:hover {
+  border: 10px solid black !important;
 }
 .box {
   margin: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 .panel.focus {
   border-color: #66AFE9;
@@ -5998,12 +5981,15 @@ a {
   outline: 0 none;
 }
 .background_2 {
-  background-color: red;
+  background-color: red !important;
 }
 .background_3 {
-  background-color: green;
+  background-color: green !important;
 }
 .background_4 {
-  background-color: blue;
+  background-color: blue !important;
+}
+.panel:hover {
+  border: 5px solid black !important;
 }
 /*# sourceMappingURL=/styles/main.css.map */
