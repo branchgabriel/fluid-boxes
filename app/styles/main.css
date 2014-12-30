@@ -5973,7 +5973,7 @@ td.visible-print {
 }
 .box {
   overflow: hidden;
-  margin: 0px !important;
+  margin: 5px !important;
 }
 .panel.focus {
   border-color: #66AFE9;
@@ -5990,6 +5990,14 @@ td.visible-print {
   background-color: blue !important;
 }
 .panel:hover {
+  max-height: 122px !important;
   border: 5px solid black !important;
+}
+.img-tiny {
+  margin: 0px !important;
+  padding: 0px !important;
+  max-width: 50%;
+  max-height: 30px;
+  border: 2px solid black !important;
 }
 /*# sourceMappingURL=/styles/main.css.map */

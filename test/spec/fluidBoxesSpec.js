@@ -13,6 +13,7 @@ function dustMockReturns(mockGetDustHtml, template) {
         mockGetDustHtml = sinon.stub(FluidBoxes.server, 'getDustHtml');
         dustMockReturns(mockGetDustHtml, FluidBoxes.containerTemplate);
         dustMockReturns(mockGetDustHtml, FluidBoxes.boxTemplate);
+        dustMockReturns(mockGetDustHtml, FluidBoxes.dashTemplate);
         FluidBoxes.init();
       });
 
@@ -30,6 +31,10 @@ function dustMockReturns(mockGetDustHtml, template) {
       it('renders first box', function () {
         assert.equal($('.box').length, 1)
       });
+
+      it('renders the dashboard', function () {
+        assert($('.dashboard').length,1)
+      })
 
     });
 
@@ -171,6 +176,9 @@ function dustMockReturns(mockGetDustHtml, template) {
           assert.equal($('#box_22 .panel-body .pull-right').html(), '')
         })
 
+        it("boxes count is correct", function () {
+          assert.equal($('#totalBoxes').text(), '21')
+        })
 
       })
 

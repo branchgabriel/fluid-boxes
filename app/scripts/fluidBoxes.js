@@ -1,13 +1,16 @@
 var FluidBoxes = {
   containerTemplate:'containers',
   boxTemplate:'box',
+  dashTemplate:'dashboard',
   totalBoxes:1,
   modPredicate : 6,
   previousPredicate : 0,
   init:function(){
     FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.containerTemplate+'.html', FluidBoxes.containerTemplate);
     FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.boxTemplate+'.html', FluidBoxes.boxTemplate);
+    FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.dashTemplate+'.html', FluidBoxes.dashTemplate);
     FluidBoxes.view.addContainers();
+    FluidBoxes.view.loadDashboard();
     FluidBoxes.view.addFirstBox();
     FluidBoxes.events.bindBoxes();
     FluidBoxes.events.bindDelete();
@@ -16,16 +19,31 @@ var FluidBoxes = {
     bindBoxes: function(){
       $('#ContentContainer').on('click','.panel-wrapper:last',function(evt){
         FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
+        FluidBoxes.view.updateBoxesTotal();
       })
     },
     bindDelete: function () {
       $('#ContentContainer').on('click','.deleteBox',function(evt){
         evt.stopPropagation();
         FluidBoxes.view.deleteBox($(evt.target).closest('.panel-wrapper'))
+        FluidBoxes.view.incrementDeleteTotal();
+        FluidBoxes.view.updateBoxesTotal();
       })
     }
   },
   view:{
+    loadDashboard: function () {
+      dust.render(FluidBoxes.dashTemplate,{}, function (err, out) {
+        $('#pageTitle').after(out)
+      });
+    },
+    updateBoxesTotal: function () {
+      $('#totalBoxes').text($('.panel-wrapper').length)
+    },
+    incrementDeleteTotal: function () {
+      var currentTotal = Number($('#totalDeletes').text());
+      $('#totalDeletes').text(currentTotal+=1);
+    },
     addContainers: function(){
       dust.render(FluidBoxes.containerTemplate, {}, function(err, out){
         $("body").append(out);
