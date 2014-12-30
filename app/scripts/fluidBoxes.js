@@ -67,6 +67,36 @@ var FluidBoxes = {
       var clickedBoxNum = Number($(clickedBox).attr('data-box-id'));
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
+      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks you!")
+    },
+    showSuccess: function (message) {
+      var successAlertSelector = "#alertDiv";
+      FluidBoxes.view.showAlert(successAlertSelector, 'success');
+      FluidBoxes.view.updateAlertMessage(successAlertSelector, message);
+    },
+    updateAlertMessage: function (elementToUpdate, message) {
+      if ($.trim(message).length !== 0) {
+        $(elementToUpdate).html(message);
+      }
+    },
+    showAlert: function (wrapper, alertType) {
+      var $message = $(wrapper);
+      $message.text($message.text());
+      $message.css({"opacity": "1", "z-index": "2000"});
+      $message.removeClass('alert-success');
+      if(alertType) {
+        $message.addClass('alert-' + alertType);
+      }
+      if (Modernizr.csstransitions === false) {
+        $message.show();
+      }
+      setTimeout(function () {
+        $message.css({"opacity": "0"});
+
+        if (Modernizr.csstransitions === false) {
+          $message.hide();
+        }
+      }, 5000);
     }
   },
   util: {
