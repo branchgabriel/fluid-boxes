@@ -55,7 +55,7 @@ function dustMockReturns(mockGetDustHtml, template) {
       })
 
       it("2nd box has next number of 2", function () {
-        assert.equal($('#box_2 .panel-title').html(), "2<span class=\"deleteBox pull-right\">x</span>")
+        assert.equal($('#box_2 .panel-title .boxNum').html(), "2")
       })
 
       it("2nd box has left neighbor of 1", function () {
@@ -146,11 +146,31 @@ function dustMockReturns(mockGetDustHtml, template) {
       })
 
       describe("deleting boxes", function () {
+        beforeEach(function () {
+          $('div#box_1').find('.deleteBox').click()
+          $('div#box_23').find('.deleteBox').click()
+        })
 
         it("1st box will delete when clicked", function () {
-          $('div#box_1 .deleteBox').click()
           assert.equal($('#box_1').length, 0)
         })
+
+        it("2nd box will update left neighbor after 1st box delete", function () {
+          assert.equal($('#box_2 .panel-body .pull-left').html(), '')
+        })
+
+        it("2nd box will update right neighbor after 1st box delete", function () {
+          assert.equal($('#box_2 .panel-body .pull-right').html(), 3);
+        })
+
+        it("22nd box will update left neighbor after last box delete", function () {
+          assert.equal($('#box_22 .panel-body .pull-left').html(), 21);
+        })
+
+        it("22nd box will update right neighbor after last box delete", function () {
+          assert.equal($('#box_22 .panel-body .pull-right').html(), '')
+        })
+
 
       })
 

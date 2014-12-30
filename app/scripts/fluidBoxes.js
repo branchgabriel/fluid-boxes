@@ -46,9 +46,9 @@ var FluidBoxes = {
       });
     },
     deleteBox: function(clickedBox){
-      var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id'));
-      $(clickedBox).remove()
-
+      var clickedBoxNum = Number($(clickedBox).attr('data-box-id'));
+      FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
+      $(clickedBox).remove();
     }
   },
   util: {
@@ -94,6 +94,12 @@ var FluidBoxes = {
       } else {
         return 4;
       }
+    },
+    updateClickedBoxNeighborData: function(clickedBox){
+      var previousBoxNum = $(clickedBox).prev().find('.boxNum').html(),
+        nextBoxNum = $(clickedBox).next().find('.boxNum').html();
+      $(clickedBox).prev().find('.panel-body .pull-right').html(nextBoxNum || '');
+      $(clickedBox).next().find('.panel-body .pull-left').html(previousBoxNum || '');
     }
 
   },
