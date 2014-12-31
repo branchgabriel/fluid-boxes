@@ -144,6 +144,9 @@ var FluidBoxes = {
           $thisBox.find('.panel-heading').addClass(backgroundClass);
           $thisBox.find('.panel-body').addClass(backgroundClass);
         }
+        var previousBoxId = $thisBox.prev().attr('data-box-id');
+        $thisBox.find('.panel-body .pull-left').html(previousBoxId)
+
       })
     },
     hasExistingBackground: function (backgroundClass) {
