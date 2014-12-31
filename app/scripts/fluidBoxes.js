@@ -19,7 +19,7 @@ var FluidBoxes = {
     FluidBoxes.util.loadClicks();
     FluidBoxes.util.replayClicks();
   },
-  events:{
+ events:{
     bindBoxes: function(){
       $('#ContentContainer').on('click','.panel-wrapper',function(evt){
         FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
@@ -30,16 +30,44 @@ var FluidBoxes = {
     },
     bindDelete: function () {
       $('#ContentContainer').on('click','.deleteBox',function(evt){
+        var clickEventTarget = $(evt.target);
         evt.stopPropagation();
-        FluidBoxes.view.deleteBox($(evt.target).closest('.panel-wrapper'))
-        FluidBoxes.view.incrementDeleteTotal();
-        FluidBoxes.view.updateBoxesTotal();
-        FluidBoxes.view.updateContentContainerBackgroundColor();
-        FluidBoxes.util.updateBoxesData();
+        function thereIsOnlyOneBoxLeft() {
+          return $('.panel-wrapper').length == 1;
+        }
+        if(thereIsOnlyOneBoxLeft()) {
+          FluidBoxes.view.confirmDelete(clickEventTarget);
+        }else {
+          FluidBoxes.util.proceedWithDeleteAction(clickEventTarget);
+        }
       })
     }
   },
   view:{
+    confirmDelete: function (clickEventTarget) {
+      bootbox.dialog({
+          message: "<h2>If you remove the only way to make a new box then you will break the internet!<br><img class='img-responsive' src='http://vignette3.wikia.nocookie.net/pikmin/images/e/e6/Fail.gif/revision/latest?cb=20081112004915'/></h2>",
+          title: "Hold on there a second partner...",
+          buttons: {
+
+            danger: {
+              label: "Delete!",
+              className: "btn-danger",
+              callback: function () {
+                FluidBoxes.util.proceedWithDeleteAction(clickEventTarget)
+              }
+            },
+            main: {
+              label: "Cancel",
+              className: "btn-default",
+              callback: function () {
+                // do nothing
+              }
+            }
+          }
+        }
+      );
+    },
     updateFocus:function(){
       $('.panel').removeClass('focus');
       $('.panel:last').addClass('focus');
@@ -55,7 +83,7 @@ var FluidBoxes = {
     },
     loadDashboard: function () {
       dust.render(FluidBoxes.dashTemplate,{}, function (err, out) {
-        $('#pageTitle').after(out)
+        $('#dash-wrapper').append(out)
       });
     },
     updateBoxesTotal: function () {
@@ -67,7 +95,7 @@ var FluidBoxes = {
     },
     addContainers: function(){
       dust.render(FluidBoxes.containerTemplate, {}, function(err, out){
-        $("body").append(out);
+        $("#box-containers-wrapper").append(out);
       });
     },
     addFirstBox: function(){
@@ -90,12 +118,17 @@ var FluidBoxes = {
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
       FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks you!")
-      FluidBoxes.view.updateFocus()
+      FluidBoxes.view.updateFocus();
       FluidBoxes.util.recordAction(clickedBoxNum,'delete');
     },
     showSuccess: function (message) {
       var successAlertSelector = "#alertDiv";
       FluidBoxes.view.showAlert(successAlertSelector, 'success');
+      FluidBoxes.view.updateAlertMessage(successAlertSelector, message);
+    },
+    showError: function (message) {
+      var successAlertSelector = "#alertDiv";
+      FluidBoxes.view.showAlert(successAlertSelector, 'danger');
       FluidBoxes.view.updateAlertMessage(successAlertSelector, message);
     },
     updateAlertMessage: function (elementToUpdate, message) {
@@ -124,6 +157,13 @@ var FluidBoxes = {
     }
   },
   util: {
+    proceedWithDeleteAction: function (eventTarget) {
+      FluidBoxes.view.deleteBox($(eventTarget).closest('.panel-wrapper'))
+      FluidBoxes.view.incrementDeleteTotal();
+      FluidBoxes.view.updateBoxesTotal();
+      FluidBoxes.view.updateContentContainerBackgroundColor();
+      FluidBoxes.util.updateBoxesData();
+    },
     replayClicks: function () {
       for(var click in FluidBoxes.clicks){
         FluidBoxes.replaying = true;
@@ -135,8 +175,14 @@ var FluidBoxes = {
         }
       }
       FluidBoxes.replaying = false;
+      if($('.panel-wrapper').length == 0){
+        FluidBoxes.view.showError('Why did you do that!?!?! Now the internet is broken!')
+      }
     },
     loadClicks: function () {
+      if(localStorage.getItem('clicks') == null){
+        localStorage.setItem('clicks',JSON.stringify([]));
+      }
       FluidBoxes.clicks = JSON.parse(localStorage.getItem('clicks') || []);
     },
     saveClicks: function () {

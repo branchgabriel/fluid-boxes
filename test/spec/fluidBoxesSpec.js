@@ -4,33 +4,39 @@ function dustMockReturns(mockGetDustHtml, template) {
 }
 (function () {
   'use strict';
+  function initWithoutReplay() {
+    FluidBoxes.templates.compileAndLoad('dust_source/' + FluidBoxes.containerTemplate + '.html', FluidBoxes.containerTemplate);
+    FluidBoxes.templates.compileAndLoad('dust_source/' + FluidBoxes.boxTemplate + '.html', FluidBoxes.boxTemplate);
+    FluidBoxes.templates.compileAndLoad('dust_source/' + FluidBoxes.dashTemplate + '.html', FluidBoxes.dashTemplate);
+    FluidBoxes.view.addContainers();
+    FluidBoxes.view.loadDashboard();
+    FluidBoxes.view.addFirstBox();
+    FluidBoxes.events.bindBoxes();
+    FluidBoxes.events.bindDelete();
+  }
+
+  function cleanDom() {
+    FluidBoxes.clicks = []
+    FluidBoxes.lastUsedBoxId = 1;
+    FluidBoxes.modPredicate = 6;
+    FluidBoxes.previousPredicate = 0;
+    $('#BaseContainer').remove();
+    $('.dashboard').remove();
+    $('#alertDiv').html('')
+  }
+
   describe('FluidBoxes', function () {
     before(function () {
       sinon.stub(FluidBoxes.util, 'loadClicks')
       sinon.stub(FluidBoxes.util, 'saveClicks')
     })
-    function cleanDom() {
-      FluidBoxes.clicks = []
-      FluidBoxes.lastUsedBoxId = 1;
-      FluidBoxes.modPredicate = 6;
-      FluidBoxes.previousPredicate = 0;
-      $('#BaseContainer').remove();
-      $('.dashboard').remove();
-      $('#alertDiv').html('')
-    }
+
 
     describe('init', function () {
 
       describe("replay clicks", function () {
         before(function () {
-          FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.containerTemplate+'.html', FluidBoxes.containerTemplate);
-          FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.boxTemplate+'.html', FluidBoxes.boxTemplate);
-          FluidBoxes.templates.compileAndLoad('dust_source/'+FluidBoxes.dashTemplate+'.html', FluidBoxes.dashTemplate);
-          FluidBoxes.view.addContainers();
-          FluidBoxes.view.loadDashboard();
-          FluidBoxes.view.addFirstBox();
-          FluidBoxes.events.bindBoxes();
-          FluidBoxes.events.bindDelete();
+          initWithoutReplay();
           FluidBoxes.clicks = [
             {'action': 'add', 'boxNum':1},
             {'action': 'add', 'boxNum':2},

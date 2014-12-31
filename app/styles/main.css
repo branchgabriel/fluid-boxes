@@ -5971,13 +5971,19 @@ td.visible-print {
 #BaseContainer:hover {
   border: 10px solid black !important;
 }
+#totalBoxes {
+  padding-right: 20px ;
+}
+#totalDeletes {
+  padding-right: 20px ;
+}
 .box {
   overflow: hidden;
   margin: 5px !important;
 }
 .panel.focus {
   border-color: #66AFE9;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
   outline: 0 none;
 }
 .background_2 {
@@ -5992,6 +5998,20 @@ td.visible-print {
 .panel:hover {
   max-height: 122px !important;
   border: 5px solid black !important;
+}
+.dashboard {
+  color: white;
+  height: 163px;
+  width: 200px;
+  background-color: #000000;
+  margin-left: 30px;
+  border: 1px solid black;
+  padding: 5px;
+  padding: 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
 .img-tiny {
   margin: 0px !important;
