@@ -1,8 +1,10 @@
 var FluidBoxes = {
   containerTemplate:'containers',
   boxTemplate:'box',
-  lastUsedBoxId:1,
   dashTemplate:'dashboard',
+  replaying:true,
+  lastUsedBoxId:1,
+  clicks:[],
   modPredicate : 6,
   previousPredicate : 0,
   init:function(){
@@ -14,6 +16,8 @@ var FluidBoxes = {
     FluidBoxes.view.addFirstBox();
     FluidBoxes.events.bindBoxes();
     FluidBoxes.events.bindDelete();
+    FluidBoxes.util.loadClicks();
+    FluidBoxes.util.replayClicks();
   },
   events:{
     bindBoxes: function(){
@@ -78,6 +82,7 @@ var FluidBoxes = {
         clickedBox.after(out);
         clickedBox.find('div.panel-body .pull-right').html(boxData.boxNum);
         FluidBoxes.view.updateFocus()
+        FluidBoxes.util.recordAction(boxData.leftNeighbor, 'add')
       });
     },
     deleteBox: function(clickedBox){
@@ -85,6 +90,8 @@ var FluidBoxes = {
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
       FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks you!")
+      FluidBoxes.view.updateFocus()
+      FluidBoxes.util.recordAction(clickedBoxNum,'delete');
     },
     showSuccess: function (message) {
       var successAlertSelector = "#alertDiv";
@@ -117,6 +124,30 @@ var FluidBoxes = {
     }
   },
   util: {
+    replayClicks: function () {
+      for(var click in FluidBoxes.clicks){
+        FluidBoxes.replaying = true;
+        var boxToClick = FluidBoxes.clicks[click];
+        if(boxToClick.action === "add"){
+          $('#box_'+boxToClick.boxNum).click()
+        } else {
+          $('#box_'+boxToClick.boxNum).find('.deleteBox').click()
+        }
+      }
+      FluidBoxes.replaying = false;
+    },
+    loadClicks: function () {
+      FluidBoxes.clicks = JSON.parse(localStorage.getItem('clicks') || []);
+    },
+    saveClicks: function () {
+      localStorage.setItem('clicks', JSON.stringify(FluidBoxes.clicks));
+    },
+    recordAction: function (boxNum, addDelete) {
+      if(!FluidBoxes.replaying){
+        FluidBoxes.clicks.push({'action':addDelete, 'boxNum': boxNum})
+        FluidBoxes.util.saveClicks();
+      }
+    },
     createBoxData: function (clickedBox) {
       var $clickedBox = $(clickedBox),
         clickedBoxNum = Number($clickedBox.closest('.panel-wrapper').attr('data-box-id'));
