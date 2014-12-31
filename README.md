@@ -1,20 +1,38 @@
 FLUID LAYOUT WITH BOXES
 ========================
-this project uses grunt
+this example uses:
+- dust
+- bootstrap
+- bootbox
+- modernizr
+- less
+- node
+- bower
+- mocha
+- should
+- sinon
+- and karma as the test runner
+
+I orginally built it using yoeman
+
+This project uses grunt
 
 clone the project and bulid
 
+this will build everything
+========================
 ```
 grunt
 ```
-this will build everything
 
+this will start up the server and open a browser
+========================
 ```
 grunt serve 
 ```
-this will start up the server and open a browser
 
 to run tests
+========================
 ```
 grunt karma:continuous
 ```
