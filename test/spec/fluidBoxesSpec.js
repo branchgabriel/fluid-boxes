@@ -4,7 +4,6 @@ function dustMockReturns(mockGetDustHtml, template) {
 }
 (function () {
   'use strict';
-
   describe('FluidBoxes', function () {
     describe('init', function () {
 
@@ -40,14 +39,15 @@ function dustMockReturns(mockGetDustHtml, template) {
 
     describe("creating 22 boxes", function () {
 
-      beforeEach(function () {
-        FluidBoxes.totalBoxes = 1
+      before(function () {
+        FluidBoxes.lastUsedBoxId = 1
         FluidBoxes.modPredicate = 6
         FluidBoxes.previousPredicate = 0
-        var boxesToTest = 21,
-          index = 0;
-        while(index++ != boxesToTest){
+        var boxesToTest = 22,
+          index = 1;
+        while(index != boxesToTest){
           $('#box_'+index).click()
+          index++;
         }
       })
 
@@ -75,7 +75,7 @@ function dustMockReturns(mockGetDustHtml, template) {
         assert.equal($('#box_1 .panel-body .pull-right').html(), 2)
       })
 
-      it("2nd box has blue background class", function(){
+      it("2nd box has red background class", function(){
         ($('#box_2 .panel-body').hasClass("background_2")).should.be.equal(true)
       })
 
@@ -87,7 +87,7 @@ function dustMockReturns(mockGetDustHtml, template) {
         ($('#box_4 .panel-body').hasClass("background_4")).should.be.equal(true)
       })
 
-      it("4th box has blue background class", function(){
+      it("4th box has  class", function(){
         assert.equal($('#box_4').hasClass('col-md-6'), true)
       })
 
@@ -140,20 +140,13 @@ function dustMockReturns(mockGetDustHtml, template) {
       })
 
       it("22nd box has highlight focus", function () {
-        assert.equal($('.focus').length, 1)
-      })
-
-      it("21st box will not call addBox when clicked", function () {
-        var addBoxSpy = sinon.spy(FluidBoxes.view,"addBox");
-        $('#box_22').click()
-        assert(addBoxSpy.called,false)
-        addBoxSpy.restore();
+        assert.equal($('#box_22 .focus').length, 1)
       })
 
       describe("deleting boxes", function () {
         beforeEach(function () {
           $('div#box_1').find('.deleteBox').click()
-          $('div#box_23').find('.deleteBox').click()
+          $('div#box_22').find('.deleteBox').click()
         })
 
         it("1st box will delete when clicked", function () {
@@ -168,20 +161,50 @@ function dustMockReturns(mockGetDustHtml, template) {
           assert.equal($('#box_2 .panel-body .pull-right').html(), 3);
         })
 
-        it("22nd box will update left neighbor after last box delete", function () {
-          assert.equal($('#box_22 .panel-body .pull-left').html(), 21);
+        it("21st box will update left neighbor after last box delete", function () {
+          assert.equal($('#box_21 .panel-body .pull-left').html(), 20);
         })
 
-        it("22nd box will update right neighbor after last box delete", function () {
-          assert.equal($('#box_22 .panel-body .pull-right').html(), '')
+        it("21st box will update right neighbor after last box delete", function () {
+          assert.equal($('#box_21 .panel-body .pull-right').html(), '')
         })
 
         it("boxes count is correct", function () {
-          assert.equal($('#totalBoxes').text(), '21')
+          assert.equal($('#totalBoxes').text(), '20')
         })
 
-      })
+        describe("deleting a box", function () {
+          beforeEach(function () {
+            $('div#box_2').find('.deleteBox').click()
+          })
 
+          it("will show an info message", function () {
+            ($('#alertDiv').html()).should.containEql('You deleted box: 2')
+          })
+
+          it("will make the content container background lighter", function () {
+            var newStyle = $('#ContentContainer').attr('style')
+            assert.equal(newStyle,'background: rgb(56, 56, 56);')
+            $('div#box_3').find('.deleteBox').click()
+            var newerStyle = $('#ContentContainer').attr('style')
+            assert.equal(newerStyle,'background: rgb(57, 57, 57);')
+          })
+        })
+
+        describe("adding a box", function () {
+          before(function () {
+            $('div#box_4').click()
+          })
+
+          it("will make the content container background darker", function () {
+            var newerStyle = $('#ContentContainer').attr('style');
+            assert.equal(newerStyle,'background: rgb(56, 56, 56);')
+          })
+        })
+
+
+
+      })
     });
   });
 })();

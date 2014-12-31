@@ -1,8 +1,8 @@
 var FluidBoxes = {
   containerTemplate:'containers',
   boxTemplate:'box',
+  lastUsedBoxId:1,
   dashTemplate:'dashboard',
-  totalBoxes:1,
   modPredicate : 6,
   previousPredicate : 0,
   init:function(){
@@ -17,9 +17,11 @@ var FluidBoxes = {
   },
   events:{
     bindBoxes: function(){
-      $('#ContentContainer').on('click','.panel-wrapper:last',function(evt){
+      $('#ContentContainer').on('click','.panel-wrapper',function(evt){
         FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
         FluidBoxes.view.updateBoxesTotal();
+        FluidBoxes.view.updateContentContainerBackgroundColor();
+        FluidBoxes.util.updateBoxesData();
       })
     },
     bindDelete: function () {
@@ -28,10 +30,25 @@ var FluidBoxes = {
         FluidBoxes.view.deleteBox($(evt.target).closest('.panel-wrapper'))
         FluidBoxes.view.incrementDeleteTotal();
         FluidBoxes.view.updateBoxesTotal();
+        FluidBoxes.view.updateContentContainerBackgroundColor();
+        FluidBoxes.util.updateBoxesData();
       })
     }
   },
   view:{
+    updateFocus:function(){
+      $('.panel').removeClass('focus');
+      $('.panel:last').addClass('focus');
+    },
+    updateContentContainerBackgroundColor: function () {
+      var r = 75, g = 75, b = 75, totalBoxes = $('.panel-wrapper').length;
+      function color(r,g,b){
+        return 'rgb('+r+','+g+','+b+')';
+      }
+      if(75 - totalBoxes > 0){
+        $('#ContentContainer').css('background' , color(r-(totalBoxes),g-(totalBoxes),b-(totalBoxes)));
+      }
+    },
     loadDashboard: function () {
       dust.render(FluidBoxes.dashTemplate,{}, function (err, out) {
         $('#pageTitle').after(out)
@@ -60,7 +77,7 @@ var FluidBoxes = {
       dust.render(FluidBoxes.boxTemplate, boxData, function (err, out) {
         clickedBox.after(out);
         clickedBox.find('div.panel-body .pull-right').html(boxData.boxNum);
-        clickedBox.find('.focus').removeClass('focus');
+        FluidBoxes.view.updateFocus()
       });
     },
     deleteBox: function(clickedBox){
@@ -101,47 +118,62 @@ var FluidBoxes = {
   },
   util: {
     createBoxData: function (clickedBox) {
-      var clickedBoxNum = Number($(clickedBox).closest('.panel-wrapper').attr('data-box-id')),
-        newBoxNum = clickedBoxNum + 1;
-      FluidBoxes.totalBoxes++;
+      var $clickedBox = $(clickedBox),
+        clickedBoxNum = Number($clickedBox.closest('.panel-wrapper').attr('data-box-id'));
+      FluidBoxes.lastUsedBoxId+=1;
       return {
-        boxNum: newBoxNum,
+        boxNum: FluidBoxes.lastUsedBoxId,
         leftNeighbor: clickedBoxNum,
-        rightNeighbor: '',
-        modNum : FluidBoxes.util.calculateModNum(newBoxNum),
-        colNum : FluidBoxes.util.calculateColNum(clickedBox, newBoxNum)
+        rightNeighbor: $clickedBox.next().attr('data-box-id') || ''
       }
     },
-    calculateModNum: function (newBoxNum) {
-      if (FluidBoxes.totalBoxes > FluidBoxes.modPredicate) {
-        FluidBoxes.previousPredicate = FluidBoxes.modPredicate;
-        FluidBoxes.modPredicate += 6;
-      }
+    updateBoxesData: function(){
+      $('.panel-wrapper').each(function(index){
+        var $thisBox = $(this);
+        $thisBox.attr('data-box-index',index+1);
+        FluidBoxes.modPredicate = 6;
+        var backgroundClass = 'background_'+FluidBoxes.util.calculateModNum(index+1);
+        var columnClass = 'col-md-'+FluidBoxes.util.calculateColNum($thisBox, index+1);
 
-      var modNum = newBoxNum % FluidBoxes.modPredicate;
-      modNum -= FluidBoxes.previousPredicate;
-      //console.log(modNum)
-      return modNum;
+        $thisBox.removeClass('col-md-4 col-md-6 col-md-12').addClass(columnClass)
+
+        $thisBox.find('.panel-heading').removeClass('background_2 background_3 background_4')
+        $thisBox.find('.panel-body').removeClass('background_2 background_3 background_4')
+
+        if(FluidBoxes.util.hasExistingBackground(backgroundClass)){
+          $thisBox.find('.panel-heading').addClass(backgroundClass);
+          $thisBox.find('.panel-body').addClass(backgroundClass);
+        }
+      })
     },
-    calculateColNum: function (clickedBox, newBoxNum) {
-      if ((
-          $(clickedBox).hasClass('col-md-4')
-          &&
-          $(clickedBox).prev().hasClass('col-md-4')
-          &&
-          $(clickedBox).prev().prev().hasClass('col-md-4'))
-        ||
-        (
-          $(clickedBox).hasClass('col-md-6')
-          &&
-          $(clickedBox).prev().hasClass('col-md-4')
-        )) {
-        return 6;
-      } else if(newBoxNum % 6 == 0) {
+    hasExistingBackground: function (backgroundClass) {
+      return backgroundClass == 'background_2'
+        || backgroundClass == 'background_3'
+        || backgroundClass == 'background_4';
+    },
+    calculateModNum: function (boxIndex) {
+      return boxIndex % FluidBoxes.modPredicate;
+    },
+    calculateColNum: function (box, boxIndex) {
+      var $box = $(box);
+      if(boxIndex % 6 == 0) {
         return 12;
+      } else if(
+        FluidBoxes.util.isMiddleRowBox($box)
+      ){
+        return 6;
       } else {
         return 4;
       }
+    },
+    isMiddleRowBox: function ($box) {
+      return ($box.prev().hasClass('col-md-4') && $box.prev().prev().hasClass('col-md-4') && $box.prev().prev().prev().hasClass('col-md-4')  )
+        ||
+        ($box.prev().hasClass('col-md-6') && $box.prev().prev().hasClass('col-md-4'))
+        ||
+        ($box.prev().hasClass('col-md-4') && $box.next().hasClass('col-md-12'))
+        ||
+        ($box.next().hasClass('col-md-12') );
     },
     updateClickedBoxNeighborData: function(clickedBox){
       var previousBoxNum = $(clickedBox).prev().find('.boxNum').html(),
