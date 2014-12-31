@@ -5958,12 +5958,21 @@ td.visible-print {
   position: relative;
   max-width: 960px !important;
   background: url('http://replygif.net/i/939.gif');
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  border-bottom-left-radius: 40px;
+  border-top-left-radius: 40px;
+  margin-right: 35px;
 }
 #ContentContainer {
   position: relative;
   margin: 40px;
   max-width: 860px !important;
   background-color: #777777;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
 }
 #ContentContainer:hover {
   border: 15px solid black !important;
@@ -5979,7 +5988,7 @@ td.visible-print {
 }
 .box {
   overflow: hidden;
-  margin: 5px !important;
+  margin: 2px !important;
 }
 .panel.focus {
   border-color: #66AFE9;

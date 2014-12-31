@@ -117,7 +117,7 @@ var FluidBoxes = {
       var clickedBoxNum = Number($(clickedBox).attr('data-box-id'));
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
-      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks you!")
+      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks to you!")
       FluidBoxes.view.updateFocus();
       FluidBoxes.util.recordAction(clickedBoxNum,'delete');
     },
