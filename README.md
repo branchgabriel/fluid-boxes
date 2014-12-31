@@ -1,6 +1,17 @@
 FLUID LAYOUT WITH BOXES
 ========================
-this example uses dust, bootstrap, less, node, bower, mocha, should, sinon, and karma as the test runner
+this example uses:
+- dust
+- bootstrap
+- bootbox
+- modernizr
+- less
+- node
+- bower
+- mocha
+- should
+- sinon
+- and karma as the test runner
 
 I orginally built it using yoeman
 
