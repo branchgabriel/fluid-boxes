@@ -1,6 +1,10 @@
 FLUID LAYOUT WITH BOXES
 ========================
-this project uses grunt
+this example uses dust, bootstrap, less, node, bower, mocha, should, karma
+
+I orginally built it using yoeman
+
+This project uses grunt
 
 clone the project and bulid
 
