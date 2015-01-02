@@ -114,7 +114,6 @@ function dustMockReturns(mockGetDustHtml, template) {
       });
 
       it('renders a new box to the right of box 1', function (){
-        debugger;
         assert.equal($('#box_2').length, 1);
       });
 
