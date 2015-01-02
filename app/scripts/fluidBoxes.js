@@ -34,33 +34,33 @@ var FluidBoxes = {
         var clickEventTarget = $(evt.target);
         evt.stopPropagation();
         function thereIsOnlyOneBoxLeft() {
-          return $('.panel-wrapper').length == 1;
+          return $('.panel-wrapper').length === 1;
         }
         if(thereIsOnlyOneBoxLeft()) {
           FluidBoxes.view.confirmDelete(clickEventTarget);
         }else {
           FluidBoxes.util.proceedWithDeleteAction(clickEventTarget);
         }
-      })
+      });
     }
   },
   view:{
     confirmDelete: function (clickEventTarget) {
       bootbox.dialog({
-          message: "<h2>If you remove the only way to make a new box then you will break the internet!<br><img class='img-responsive' src='http://vignette3.wikia.nocookie.net/pikmin/images/e/e6/Fail.gif/revision/latest?cb=20081112004915'/></h2>",
-          title: "Hold on there a second partner...",
+          message: '<h2>If you remove the only way to make a new box then you will break the internet!<br><img class="img-responsive" src="http://vignette3.wikia.nocookie.net/pikmin/images/e/e6/Fail.gif/revision/latest?cb=20081112004915"/></h2>',
+          title: 'Hold on there a second partner...',
           buttons: {
 
             danger: {
-              label: "Delete!",
-              className: "btn-danger",
+              label: 'Delete!',
+              className: 'btn-danger',
               callback: function () {
                 FluidBoxes.util.proceedWithDeleteAction(clickEventTarget);
               }
             },
             main: {
-              label: "Cancel",
-              className: "btn-default",
+              label: 'Cancel',
+              className: 'btn-default',
               callback: function () {
                 // do nothing
               }
@@ -88,7 +88,7 @@ var FluidBoxes = {
       });
     },
     updateBoxesTotal: function () {
-      $('#totalBoxes').text($('.panel-wrapper').length)
+      $('#totalBoxes').text($('.panel-wrapper').length);
     },
     incrementDeleteTotal: function () {
       var currentTotal = Number($('#totalDeletes').text());
@@ -111,19 +111,19 @@ var FluidBoxes = {
         clickedBox.after(out);
         clickedBox.find('div.panel-body .pull-right').html(boxData.boxNum);
         FluidBoxes.view.updateFocus();
-        FluidBoxes.util.recordAction(boxData.leftNeighbor, 'add')
+        FluidBoxes.util.recordAction(boxData.leftNeighbor, 'add');
       });
     },
     deleteBox: function(clickedBox){
       var clickedBoxNum = Number($(clickedBox).attr('data-box-id'));
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
-      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks to you!");
+      FluidBoxes.view.showSuccess('You deleted box: '+clickedBoxNum+' <br/> The world is now a cleaner place thanks to you!');
       FluidBoxes.view.updateFocus();
       FluidBoxes.util.recordAction(clickedBoxNum,'delete');
     },
     showSuccess: function (message) {
-      var successAlertSelector = "#alertDiv";
+      var successAlertSelector = '#alertDiv';
       FluidBoxes.view.showAlert(successAlertSelector, 'success');
       FluidBoxes.view.updateAlertMessage(successAlertSelector, message);
     },
@@ -140,7 +140,7 @@ var FluidBoxes = {
     showAlert: function (wrapper, alertType) {
       var $message = $(wrapper);
       $message.text($message.text());
-      $message.css({"opacity": "1", "z-index": "2000"});
+      $message.css({'opacity': '1', 'z-index': '2000'});
       $message.removeClass('alert-success');
       if(alertType) {
         $message.addClass('alert-' + alertType);
@@ -149,7 +149,7 @@ var FluidBoxes = {
         $message.show();
       }
       setTimeout(function () {
-        $message.css({"opacity": "0"});
+        $message.css({'opacity': '0'});
 
         if (Modernizr.csstransitions === false) {
           $message.hide();
