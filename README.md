@@ -19,13 +19,15 @@ This project uses grunt
 
 clone the project and bulid
 
-if you don't have grunt 
+to install and run...
+
+if you don't have grunt, install it
 ========================
 ```
 npm install -g grunt-cli  // use sudo if you get errors
 ```
 
-go to this will install needed dependencies
+this will install needed dependencies
 ========================
 ```
 npm install
