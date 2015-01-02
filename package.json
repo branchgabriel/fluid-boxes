@@ -1,6 +1,6 @@
 {
   "name": "fluid-boxes",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -37,5 +37,23 @@
   },
   "engines": {
     "node": ">=0.8.0"
-  }
+  },
+  "description": "FLUID LAYOUT WITH BOXES ======================== this example uses: - dust - bootstrap - bootbox - modernizr - less - node - bower - mocha - should - sinon - and karma as the test runner",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "karma:continuous"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/branchgabriel/fluid-boxes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/branchgabriel/fluid-boxes/issues"
+  },
+  "homepage": "https://github.com/branchgabriel/fluid-boxes"
 }
