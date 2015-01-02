@@ -55,7 +55,7 @@ var FluidBoxes = {
               label: "Delete!",
               className: "btn-danger",
               callback: function () {
-                FluidBoxes.util.proceedWithDeleteAction(clickEventTarget)
+                FluidBoxes.util.proceedWithDeleteAction(clickEventTarget);
               }
             },
             main: {
@@ -84,7 +84,7 @@ var FluidBoxes = {
     },
     loadDashboard: function () {
       dust.render(FluidBoxes.dashTemplate,{}, function (err, out) {
-        $('#dash-wrapper').append(out)
+        $('#dash-wrapper').append(out);
       });
     },
     updateBoxesTotal: function () {
