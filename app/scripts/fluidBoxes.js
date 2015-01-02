@@ -1,3 +1,4 @@
+'use strict';
 var FluidBoxes = {
   containerTemplate:'containers',
   boxTemplate:'box',
@@ -22,7 +23,7 @@ var FluidBoxes = {
  events:{
     bindBoxes: function(){
       $('#ContentContainer').on('click','.panel-wrapper',function(evt){
-        FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'))
+        FluidBoxes.view.addBox($(evt.target).closest('.panel-wrapper'));
         FluidBoxes.view.updateBoxesTotal();
         FluidBoxes.view.updateContentContainerBackgroundColor();
         FluidBoxes.util.updateBoxesData();
@@ -109,7 +110,7 @@ var FluidBoxes = {
       dust.render(FluidBoxes.boxTemplate, boxData, function (err, out) {
         clickedBox.after(out);
         clickedBox.find('div.panel-body .pull-right').html(boxData.boxNum);
-        FluidBoxes.view.updateFocus()
+        FluidBoxes.view.updateFocus();
         FluidBoxes.util.recordAction(boxData.leftNeighbor, 'add')
       });
     },
@@ -117,7 +118,7 @@ var FluidBoxes = {
       var clickedBoxNum = Number($(clickedBox).attr('data-box-id'));
       FluidBoxes.util.updateClickedBoxNeighborData(clickedBox);
       $(clickedBox).remove();
-      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks to you!")
+      FluidBoxes.view.showSuccess("You deleted box: "+clickedBoxNum+" <br/> The world is now a cleaner place thanks to you!");
       FluidBoxes.view.updateFocus();
       FluidBoxes.util.recordAction(clickedBoxNum,'delete');
     },
@@ -158,7 +159,7 @@ var FluidBoxes = {
   },
   util: {
     proceedWithDeleteAction: function (eventTarget) {
-      FluidBoxes.view.deleteBox($(eventTarget).closest('.panel-wrapper'))
+      FluidBoxes.view.deleteBox($(eventTarget).closest('.panel-wrapper'));
       FluidBoxes.view.incrementDeleteTotal();
       FluidBoxes.view.updateBoxesTotal();
       FluidBoxes.view.updateContentContainerBackgroundColor();
@@ -190,7 +191,7 @@ var FluidBoxes = {
     },
     recordAction: function (boxNum, addDelete) {
       if(!FluidBoxes.replaying){
-        FluidBoxes.clicks.push({'action':addDelete, 'boxNum': boxNum})
+        FluidBoxes.clicks.push({'action':addDelete, 'boxNum': boxNum});
         FluidBoxes.util.saveClicks();
       }
     },
@@ -212,10 +213,10 @@ var FluidBoxes = {
         var backgroundClass = 'background_'+FluidBoxes.util.calculateModNum(index+1);
         var columnClass = 'col-md-'+FluidBoxes.util.calculateColNum($thisBox, index+1);
 
-        $thisBox.removeClass('col-md-4 col-md-6 col-md-12').addClass(columnClass)
+        $thisBox.removeClass('col-md-4 col-md-6 col-md-12').addClass(columnClass);
 
-        $thisBox.find('.panel-heading').removeClass('background_2 background_3 background_4')
-        $thisBox.find('.panel-body').removeClass('background_2 background_3 background_4')
+        $thisBox.find('.panel-heading').removeClass('background_2 background_3 background_4');
+        $thisBox.find('.panel-body').removeClass('background_2 background_3 background_4');
 
         if(FluidBoxes.util.hasExistingBackground(backgroundClass)){
           $thisBox.find('.panel-heading').addClass(backgroundClass);
@@ -280,4 +281,4 @@ var FluidBoxes = {
       return templateHtml
     }
   }
-}
+};

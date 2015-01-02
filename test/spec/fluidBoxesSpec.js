@@ -1,3 +1,4 @@
+'use strict';
 var mockGetDustHtml;
 function dustMockReturns(mockGetDustHtml, template) {
   mockGetDustHtml.withArgs('dust_source/'+template+'.html').returns(__html__['dust_source/' + template + '.html']);
