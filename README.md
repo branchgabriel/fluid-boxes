@@ -19,10 +19,22 @@ This project uses grunt
 
 clone the project and bulid
 
+if you don't have grunt 
+========================
+```
+npm install -g grunt-cli  // use sudo if you get errors
+```
+
+go to this will install needed dependencies
+========================
+```
+npm install
+```
+
 this will build everything
 ========================
 ```
-grunt
+grunt --force    
 ```
 
 this will start up the server and open a browser
