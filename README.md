@@ -6,7 +6,7 @@ this example uses:
 - bootbox
 - modernizr
 - less
-- node
+- node v0.10.26
 - bower
 - mocha
 - should
