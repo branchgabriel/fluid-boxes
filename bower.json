@@ -2,10 +2,25 @@
   "name": "fluid-boxes",
   "version": "0.0.0",
   "dependencies": {
-    "bootstrap": "~3.0.0",
-    "modernizr": "~2.6.2",
-    "jquery": "~1.9.1"
+    "assert": "~0.1.0",
+    "bootbox": "~4.3.0",
+    "dustjs": "~0.3.0",
+    "jsdom": "~2.0.0",
+    "mocha": "~2.1.0",
+    "should": "~4.4.2"
   },
-  "devDependencies": {}
+  "homepage": "https://github.com/branchgabriel/fluid-boxes",
+  "authors": [
+    "gabriel <gbranch@everesttech.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
 }
-
